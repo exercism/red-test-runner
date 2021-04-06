@@ -1,5 +1,5 @@
 Red [
-	description: {Red language track test runner for exercism}
+	description: {Red language track test runner for Exercism}
 	author: loziniak
 ]
 
@@ -11,33 +11,30 @@ input-dir: to-red-file args/2
 answer-file: input-dir/(rejoin [slug ".red"])
 test-file: input-dir/(rejoin [slug "-test.red"])
 
-results-template: #(
+results-template: make map! compose [
 	version: 2
 	status: pass		; pass / fail / error
-	message: none		; only when there is error
-	tests: []
-)
-results-template/message: none
+	message: (none)		; only when there is error
+	tests: []			; tests results, see 'test-template
+]
 
-test-template: #(
+test-template: make map! compose [
 	name: ""
 	status: pass		; pass / fail / error
-	message: none
-	output: ""
-	test_code: ""
-)
+	message: (none)
+	output: ""			; console output from user's script's
+	test_code: ""		; what was tested
+]
 
 results: copy results-template
 
-either error? err: try [
+if error? err: try [
 	test-file: load test-file
 	cases: test-file/canonical-cases
 ] [
 	results/status: 'error
 	results/message: form err
 	cases: copy []
-] [
-
 ]
 
 foreach test-case cases [
