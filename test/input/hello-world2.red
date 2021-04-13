@@ -4,5 +4,8 @@ Red [
 ]
 
 greet-the-world: function [] [
-	"Hello, World!"
+	probe "debug"
+	prin "debug"
+	print "ging"
+	"Hello, Universe!"
 ]

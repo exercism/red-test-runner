@@ -3,7 +3,7 @@ Red [
 	author: loziniak
 ]
 
-tests: [
+metatests: [
 	[
 		"hello-world"
 		#(
@@ -15,7 +15,7 @@ tests: [
 				status: "fail"
 				message: {FAILED. Expected: "Hello, World!", but got "Hello, Universe!"}
 				output: {"debug"^/debugging^/}
-				test_code: {result = "Hello, World!"}
+				test_code: {solution = "Hello, World!"}
 			)]
 		)
 	]
@@ -23,14 +23,20 @@ tests: [
 		"hello-world2"
 		#(
 			version: 2
-			status: "pass"
+			status: "fail"
 			message: none
 			tests: [#(
 				name: "Say Hi!"
 				status: "pass"
 				message: "✓"
-				output: ""
-				test_code: {result = "Hello, World!"}
+				output: {"debug"^/debugging^/}
+				test_code: {solution = "Hello, Universe!"}
+			) #(
+				name: "Say Hi!"
+				status: "fail"
+				message: {FAILED. Expected: "Hello, World!", but got "Hello, Universe!"}
+				output: {"debug"^/debugging^/}
+				test_code: {solution = "Hello, World!"}
 			)]
 		)
 	]
@@ -39,13 +45,13 @@ tests: [
 		#(
 			version: 2
 			status: "error"
-			message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Stack: do-file first }
+			message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Stack: do-file error? first }
 			tests: [#(
 				name: "Say Hi!"
 				status: "error"
-				message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Stack: do-file first }
+				message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Stack: do-file error? first }
 				output: ""
-				test_code: {result = "Hello, World!"}
+				test_code: {solution = "Hello, World!"}
 			)]
 		)
 	]
@@ -63,24 +69,24 @@ tests: [
 
 pass?: true
 
-foreach test tests [
+foreach metatest metatests [
 
-	print ["^/" test/1 " ..."]
+	print ["^/" metatest/1 " ..."]
 
 	trial: try [
 
 		do/args %test-runner.red rejoin [
-			{"} test/1 {" "test/input/" "test/output/"}
+			{"} metatest/1 {" "test/input/" "test/output/"}
 		]		;; TODO: use 'call'?
 
 		results: load-json read %test/output/results.json
 		delete %test/output/results.json
 
-		either results = test/2 [
+		either results = metatest/2 [
 			print "OK"
 			true
 		] [
-			print ["FAIL. Expected:^/" mold test/2 "^/but got:^/" mold results]
+			print ["FAIL. Expected:^/" mold metatest/2 "^/but got:^/" mold results]
 			false
 		]
 	]
@@ -98,4 +104,8 @@ foreach test tests [
 	unless pass? [break]
 ]
 
-if pass? [print "^/ALL TESTS OK."]
+either pass? [
+	print "^/ALL TESTS OK."
+] [
+	quit/return 1		; TODO: https://github.com/red/red/issues/4095
+]

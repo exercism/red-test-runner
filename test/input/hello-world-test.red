@@ -28,6 +28,10 @@ canonical-cases: [#(
     description: "Say Hi!"
     input: #()
     expected: "Hello, World!"
+) #(
+    description: "Say Hi!"
+    input: #()
+    expected: "Hello, Universe!"
 )]
 
 
