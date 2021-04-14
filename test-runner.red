@@ -73,8 +73,8 @@ if error? runner-err: try [
 		solution: none
 		testcase-err: try [
 
-			solution: do
-				to file! answer-file
+			testcase-context: context load to file! answer-file
+			solution: testcase-context/(last words-of testcase-context)
 
 			if function? :solution [
 				solution: solution			; execute function

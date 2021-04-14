@@ -29,13 +29,13 @@ metatests: [
 				name: "Say Hi!"
 				status: "pass"
 				message: "✓"
-				output: {"debug"^/debugging^/}
+				output: {"debug"^/debugging^/"INTERNAL_OUTPUT"^/}
 				test_code: {solution = "Hello, Universe!"}
 			) #(
 				name: "Say Hi!"
 				status: "fail"
 				message: {FAILED. Expected: "Hello, World!", but got "Hello, Universe!"}
-				output: {"debug"^/debugging^/}
+				output: {"debug"^/debugging^/"INTERNAL_OUTPUT"^/}
 				test_code: {solution = "Hello, World!"}
 			)]
 		)
