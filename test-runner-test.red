@@ -45,11 +45,11 @@ metatests: [
 		#(
 			version: 2
 			status: "error"
-			message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Stack: do-file error? first }
+			message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Stack: do-file compare-results error? }
 			tests: [#(
 				name: "Say Hi!"
 				status: "error"
-				message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Stack: do-file error? first }
+				message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Stack: do-file compare-results error? }
 				output: ""
 				test_code: {solution = "Hello, World!"}
 			)]
@@ -60,8 +60,23 @@ metatests: [
 		#(
 			version: 2
 			status: "error"
-			message: {*** Access Error: cannot open: %test/input/hello-world4-test.red^/*** Where: read^/*** Stack: do-file load }
+			message: {*** Access Error: cannot open: %test/input/hello-world4-test.red^/*** Where: read^/*** Stack: do-file compare-results load }
 			tests: []
+		)
+	]
+	[
+		"hello-world5"
+		#(
+		    version: 2
+		    status: "error"
+		    message: {*** Script Error: output has no value^/*** Where: append^/*** Stack: do-file compare-results error? }
+		    tests: [#(
+		        name: "Say Hi!"
+		        status: "error"
+		        message: {*** Script Error: output has no value^/*** Where: append^/*** Stack: do-file compare-results error? }
+		        output: "debugging^/"
+		        test_code: {solution = "Hello, World!"}
+		    )]
 		)
 	]
 ]
@@ -100,6 +115,8 @@ foreach metatest metatests [
 		trial
 		not error? trial
 	]
+
+	unset 'results
 
 	unless pass? [break]
 ]
