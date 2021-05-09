@@ -10,4 +10,4 @@
 # ./run.sh two-fer twofer/ outdir/
 
 cd "$2" || exit
-red /opt/test-runner/test-runner.red "$1" "$2" "$3"
+/bin/red /opt/test-runner/test-runner.red "$1" "$2" "$3"

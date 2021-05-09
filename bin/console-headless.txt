@@ -1,0 +1,3 @@
+Compiled from Red sources:
+
+echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | ./rebol +q -s
