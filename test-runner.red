@@ -6,7 +6,7 @@ Red [
 
 test-runner: context [
 
-	args: load system/script/args
+	args: load replace/all system/script/args #"'" #"^""
 
 	slug: args/1
 
