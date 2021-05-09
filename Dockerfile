@@ -1,29 +1,16 @@
 FROM ubuntu
 
 COPY bin/console-headless /bin/red
-# COPY bin/console-view_a4854f7c /bin/red
 RUN chmod +x /bin/red
 
-# from http://www.red-lang.org/p/download.html
-## get dependencies, following red insruction (are all needed?)
 RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install -y \
       libc6:i386 \
       libcurl4:i386 \
-       libgdk-pixbuf2.0-0:i386 \
-#      libgtk-3-0:i386 \
-#      libcanberra-gtk3-module:i386 \
-#      wget \
-      && \
-#    wget http://static.red-lang.org/dl/auto/linux/red-latest -O /bin/red && \
-#    chmod +x /bin/red && \
-#    echo "q" | /bin/red
-    echo "done."
+      libgdk-pixbuf2.0-0:i386
 
-# CMD [ "/bin/red" ]
-
-
-# WORKDIR /opt/test-runner
-# COPY . .
-# ENTRYPOINT ["/opt/test-runner/bin/run.sh"]
+# Red can be run in Docker only in script mode (no REPL or stdin):
+# echo "Red [] print 'hello" > /home/user/a.red
+# docker build -t "red-test-runner:Dockerfile" .
+# docker run --mount type=bind,src="/home/user/a.red",dst=/a.red red-test-runner:Dockerfile /bin/red /a.red
