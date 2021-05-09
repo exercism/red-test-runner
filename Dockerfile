@@ -11,6 +11,5 @@ RUN dpkg --add-architecture i386 && \
       libgdk-pixbuf2.0-0:i386
 
 # Red can be run in Docker only in script mode (no REPL or stdin):
-# echo "Red [] print 'hello" > /home/user/a.red
 # docker build -t "red-test-runner:Dockerfile" .
-# docker run --mount type=bind,src="/home/user/a.red",dst=/a.red red-test-runner:Dockerfile /bin/red /a.red
+# docker run --mount type=bind,src="/home/user/exercism/red-test-runner",dst=/opt/test-runner red-test-runner:Dockerfile /bin/red /opt/test-runner/test-runner-test.red
