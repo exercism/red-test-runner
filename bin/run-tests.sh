@@ -11,18 +11,4 @@
 # Example:
 # ./bin/run-tests.sh
 
-# ls -al /test/red-master
-# ls -al /test/red-master/build
-
-# cd /test/red-master
-
-# echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | rebol +q -s
-
-# ls -al
-# ls -al /test/red-master/build
-# ls -al /test/red-master/environment/console/CLI
-# echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | /usr/local/bin/rebol +q -s
-
-# echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | ./rebol +q -s
-
 /usr/local/bin/red test-runner-test.red
