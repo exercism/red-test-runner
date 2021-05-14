@@ -7,8 +7,6 @@ RUN dpkg --add-architecture i386 && \
 RUN curl -L -o /usr/local/bin/red https://static.red-lang.org/dl/auto/linux/red-latest && \
   chmod +x /usr/local/bin/red
 
-# RUN /usr/local/bin/red --no-console --no-view build libRed
-
 # WORKDIR /opt/rebol
 
 # RUN curl -L -O http://www.rebol.com/downloads/v278/rebol-core-278-4-10.tar.gz
