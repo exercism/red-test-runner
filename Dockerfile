@@ -17,19 +17,17 @@ RUN cp rebol-core/rebol /usr/local/bin/rebol
 RUN chmod +x /usr/local/bin/rebol
 
 WORKDIR /test
-
 RUN curl -L -O https://github.com/red/red/archive/refs/heads/master.tar.gz
 RUN tar -xzf master.tar.gz
-RUN cd red-master
-# RUN echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | ./rebol +q -s
+WORKDIR /test/red-master
+RUN echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | rebol +q -s
+RUN cp /test/red-master/console /usr/local/bin/red
+RUN chmod +x /usr/local/bin/red
 
 WORKDIR /opt/test-runner
 
 # # Pre-compile binaries
 # RUN /usr/local/bin/red --no-console --no-view build libRed
-
-# COPY bin/console-headless /usr/local/bin/red
-# RUN chmod +x /usr/local/bin/red
 
 COPY . .
 ENTRYPOINT ["/opt/test-runner/bin/run.sh"]
