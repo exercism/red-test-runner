@@ -10,11 +10,11 @@ test-runner: context [
 
 	slug: args/1
 
-	input-dir: to-red-file args/2
+	input-dir: dirize to-red-file args/2
 	answer-file: input-dir/(rejoin [slug ".red"])
 	test-file: input-dir/(rejoin [slug "-test.red"])
 
-	results-dir: to-red-file args/3
+	results-dir: dirize to-red-file args/3
 
 
 	results-template: make map! [

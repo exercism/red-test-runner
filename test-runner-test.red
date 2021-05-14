@@ -6,6 +6,8 @@ Red [
 metatests: [
 	[
 		"hello-world"
+		%test/input/
+		%test/output/
 		#(
 			version: 2
 			status: "fail"
@@ -21,6 +23,8 @@ metatests: [
 	]
 	[
 		"hello-world2"
+		%test/input/
+		%test/output/
 		#(
 			version: 2
 			status: "fail"
@@ -42,6 +46,8 @@ metatests: [
 	]
 	[
 		"hello-world3"
+		%test/input/
+		%test/output/
 		#(
 			version: 2
 			status: "error"
@@ -57,6 +63,8 @@ metatests: [
 	]
 	[
 		"hello-world4"
+		%test/input/
+		%test/output/
 		#(
 			version: 2
 			status: "error"
@@ -66,6 +74,8 @@ metatests: [
 	]
 	[
 		"hello-world5"
+		%test/input/
+		%test/output/
 		#(
 		    version: 2
 		    status: "error"
@@ -79,6 +89,25 @@ metatests: [
 		    )]
 		)
 	]
+	[
+		"hello-world6"
+		;-- trailing slashes omitted intentionally, as this is what's being tested:
+		%test/input
+		%test/output
+		#(
+			version: 2
+			status: "fail"
+			message: none
+			tests: [#(
+				name: "Say Hi!"
+				status: "fail"
+				message: {FAILED. Expected: "Hello, World!", but got "Hello, Universe!"}
+				output: {"debug"^/debugging^/}
+				test_code: {solution = "Hello, World!"}
+			)]
+		)
+	]
+
 ]
 
 
@@ -91,17 +120,17 @@ foreach metatest metatests [
 	trial: try [
 
 		do/args %test-runner.red rejoin [
-			{"} metatest/1 {" "test/input/" "test/output/"}
+			{"} metatest/1 {" "} metatest/2 {" "} metatest/3 {"}
 		]		;; TODO: use 'call'?
 
 		results: load-json read %test/output/results.json
 		delete %test/output/results.json
 
-		either results = metatest/2 [
+		either results = metatest/4 [
 			print "OK"
 			true
 		] [
-			print ["FAIL. Expected:^/" mold metatest/2 "^/but got:^/" mold results]
+			print ["FAIL. Expected:^/" mold metatest/4 "^/but got:^/" mold results]
 			false
 		]
 	]
