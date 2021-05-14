@@ -11,4 +11,22 @@
 # Example:
 # ./bin/run-tests.sh
 
-/usr/local/bin/red test-runner-test.red
+ls -al /test/red-master
+ls -al /test/red-master/build
+
+cd /test 
+cp /usr/local/bin/rebol .
+
+ls -al
+
+echo '#!/usr/local/bin/rebol -s' > erik.r
+echo 'REBOL [Title: "Build console"]' >> erik.r
+echo 'do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' >> erik.r
+
+cat erik.r
+rebol --script erik.r
+# rebol --help
+
+# echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | ./rebol +q -s
+
+# /usr/local/bin/red test-runner-test.red
