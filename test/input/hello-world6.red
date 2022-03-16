@@ -3,9 +3,10 @@ Red [
 	author: "" ; you can write your name here, in quotes
 ]
 
-greet-the-world: function [] [
+hello: function [] [
 	probe "debug"
 	prin "debug"
 	print "ging"
 	"Hello, Universe!"
 ]
+

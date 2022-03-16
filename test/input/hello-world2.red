@@ -5,10 +5,11 @@ Red [
 
 output: "INTERNAL_OUTPUT"
 
-greet-the-world: function [] [
+hello: function [] [
 	probe "debug"
 	prin "debug"
 	print "ging"
 	probe output		; output should not leak from probe/print/prin functions
 	"Hello, Universe!"
 ]
+

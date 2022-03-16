@@ -54,4 +54,4 @@ When you've made modifications to the code that will result in a new "golden" st
 
 [test-runners]: https://github.com/exercism/docs/tree/main/building/tooling/test-runners
 [golden]: https://ro-che.info/articles/2017-12-04-golden-tests
-[exercism]: https://exercism.io
+[exercism]: https://exercism.org

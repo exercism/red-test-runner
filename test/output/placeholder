@@ -1,1 +1,1 @@
-... because Git wouldn't include "output" folder otherwise.
+... because Git wouldn't include "output" folder if it was empty.

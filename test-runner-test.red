@@ -51,11 +51,11 @@ metatests: [
 		#(
 			version: 2
 			status: "error"
-			message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Near : 0 "Hello, Universe!"^/*** Stack: do-file compare-results error? }
+			message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from first expect hello }
 			tests: [#(
 				name: "Say Hi!"
 				status: "error"
-				message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Near : 0 "Hello, Universe!"^/*** Stack: do-file compare-results error? }
+				message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from first expect hello }
 				output: ""
 				test_code: {solution = "Hello, World!"}
 			)]
@@ -68,7 +68,7 @@ metatests: [
 		#(
 			version: 2
 			status: "error"
-			message: {*** Access Error: cannot open: %test/input/hello-world4-test.red^/*** Where: read^/*** Near : test-file canonical-cases: test-file/canonical-cases ^/*** Stack: do-file compare-results load }
+			message: {*** Access Error: cannot open: %hello-world4-test.red^/*** Where: read^/*** Near : test-file remove find/last/only code 'test-results ^/*** Stack: do-file exercism-results-from }
 			tests: []
 		)
 	]
@@ -79,11 +79,11 @@ metatests: [
 		#(
 		    version: 2
 		    status: "error"
-		    message: {*** Script Error: output has no value^/*** Where: append^/*** Near : output "RUNNER NOT ISOLATED" "Hello, Univ"^/*** Stack: do-file compare-results error? }
+		    message: {*** Script Error: output has no value^/*** Where: append^/*** Near : output "RUNNER NOT ISOLATED" "Hello, Univ"^/*** Stack: do-file exercism-results-from first expect hello }
 		    tests: [#(
 		        name: "Say Hi!"
 		        status: "error"
-		        message: {*** Script Error: output has no value^/*** Where: append^/*** Near : output "RUNNER NOT ISOLATED" "Hello, Univ"^/*** Stack: do-file compare-results error? }
+		        message: {*** Script Error: output has no value^/*** Where: append^/*** Near : output "RUNNER NOT ISOLATED" "Hello, Univ"^/*** Stack: do-file exercism-results-from first expect hello }
 		        output: "debugging^/"
 		        test_code: {solution = "Hello, World!"}
 		    )]
@@ -137,12 +137,12 @@ foreach metatest metatests [
 
 	if error? trial [
 		print trial
+		pass?: false
 	]
 
 	pass?: all [
 		pass?
 		trial
-		not error? trial
 	]
 
 	unset 'results

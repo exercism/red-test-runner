@@ -3,9 +3,10 @@ Red [
 	author: "" ; you can write your name here, in quotes
 ]
 
-greet-the-world: function [] [
+hello: function [] [
 	print "debugging"
 	append output "RUNNER NOT ISOLATED"		; should generate error, access to 
 											; isolated test-runner context should be impossible
 	"Hello, Universe!"
 ]
+

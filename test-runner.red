@@ -11,8 +11,7 @@ test-runner: context [
 	slug: args/1
 
 	input-dir: dirize to-red-file args/2
-	answer-file: input-dir/(rejoin [slug ".red"])
-	test-file: input-dir/(rejoin [slug "-test.red"])
+	test-file: to file! rejoin [slug "-test.red"]
 
 	results-dir: dirize to-red-file args/3
 
@@ -32,105 +31,65 @@ test-runner: context [
 		test_code: ""		; what was tested
 	]
 
-	results: copy/deep results-template
-
-
-	output: copy ""
-
-	run-answer: does [
-		old-functions: override-console
-
-		solution: try [
-
-			answer-context: context bind (load to file! answer-file) system/words
-			solution: answer-context/(last words-of answer-context)
-
-			if function? :solution [
-				solution: solution			; execute function
-			]
-			solution
+	exercism-results: copy/deep results-template
+	
+	
+	run-test: does [
+		old-dir: to file! get-current-dir
+		system/words/test-results: try [
+			change-dir input-dir
+			do %testlib.red
+			code: load test-file
+			remove find/last/only code 'test-results/print
+			bind code system/words
+			do code
+			system/words/test-results
 		]
-
-		restore-console old-functions
+		change-dir old-dir
 	]
-
-	compare-results: does [
-		if error? runner-err: try [
-
-			test-file: load test-file
-			canonical-cases: test-file/canonical-cases
-
-			foreach testcase canonical-cases [
-
+	
+	exercism-results-from: function [
+		results [block! error!]
+	] [
+		either error? results [
+			exercism-results/status: 'error
+			exercism-results/message: form results
+		] [
+			foreach result results [
 				test: copy/deep test-template
-				test/name: testcase/description
-				test/test_code: rejoin ["solution = " mold testcase/expected]
-				test/output: output
-
-				case [
-					error? solution [
-						results/status: test/status: 'error
-						results/message: test/message: form solution
+				test/name: result/summary
+				test/test_code: rejoin ["solution = " mold result/expected]
+				test/output: result/output
+				test/status: exercism-results/status: result/status
+			
+				test/message: switch/default result/status [
+					error [
+						exercism-results/message: form result/actual
 					]
-					solution <> testcase/expected [		; test_code
-						results/status: test/status: 'fail
-						test/message:
-							rejoin [{FAILED. Expected: "} testcase/expected {", but got "} solution {"}]
+					fail [
+						rejoin [{FAILED. Expected: "} result/expected {", but got "} result/actual {"}]
 					]
-					'else [
-						test/message: "✓"
-					]
+				] [
+					"✓" ;'pass
 				]
-
-				append results/tests test
-
-				if results/status <> 'pass [
+				
+				append exercism-results/tests test
+	
+				if exercism-results/status <> 'pass [
 					break
 				]
 			]
-
-			'no-error
-		] [
-			results/status: 'error
-			results/message: form runner-err
 		]
 	]
 
-	save-results: does [
+	save-exercism-results: does [
 		save/as rejoin [
 			results-dir
 			%results.json
-		] results 'json
+		] exercism-results 'json
 	]
-
-
-	override-console: function [] [
-		old-functions: reduce [:prin :print :probe]
-
-		system/words/prin: function [value [any-type!]] [
-			append output form :value
-			return ()
-		]
-		system/words/print: function [value [any-type!]] [
-			append output reduce [form :value #"^/"]
-			return ()
-		]
-		system/words/probe: function [value [any-type!]] [
-			append output reduce [mold :value #"^/"]
-			return :value
-		]
-		return old-functions
-	]
-
-	restore-console: function [old-functions [block!]] [
-		system/words/prin: :old-functions/1
-		system/words/print: :old-functions/2
-		system/words/probe: :old-functions/3
-	]
-
 ]
 
-
-test-runner/run-answer
-test-runner/compare-results
-test-runner/save-results
+test-runner/run-test
+test-runner/exercism-results-from test-results
+test-runner/save-exercism-results
