@@ -146,8 +146,9 @@ context [
 					pad/with result/summary 40 #"."
 					"... "
 					switch result/status [
-						pass		["✓"]
-						fail		[rejoin [{FAILED. Expected: } result/expected {, but got } result/actual]]
+						pass	["✓"]
+						fail	[rejoin [{FAILED. Expected: } result/expected {, but got } result/actual]]
+						error	[first split form result/actual "^/"]
 						ignored	["(ignored)"]
 					]
 				]
