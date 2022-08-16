@@ -42,7 +42,6 @@ test-runner: context [
 			code: load test-file
 			remove find/last/only code 'test-results/print
 			replace code [test-init/limit] [test-init]
-			probe code
 			bind code system/words
 			do code
 			system/words/test-results
@@ -85,10 +84,10 @@ test-runner: context [
 	]
 
 	save-exercism-results: does [
-		save/as rejoin [
+		save/as probe rejoin [
 			results-dir
 			%results.json
-		] exercism-results 'json
+		] probe exercism-results 'json
 	]
 ]
 
