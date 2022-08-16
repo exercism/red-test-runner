@@ -49,7 +49,7 @@ test-runner: context [
 		]
 		change-dir old-dir
 	]
-	
+
 	exercism-results-from: function [
 		results [block! error!]
 	] [
