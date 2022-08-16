@@ -32,8 +32,8 @@ test-runner: context [
 	]
 
 	exercism-results: copy/deep results-template
-	
-	
+
+
 	run-test: does [
 		old-dir: to file! get-current-dir
 		system/words/test-results: try [
@@ -41,6 +41,8 @@ test-runner: context [
 			do %testlib.red
 			code: load test-file
 			remove find/last/only code 'test-results/print
+			replace code [test-init/limit] [test-init]
+			probe code
 			bind code system/words
 			do code
 			system/words/test-results

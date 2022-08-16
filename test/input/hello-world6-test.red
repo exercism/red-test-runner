@@ -5,7 +5,7 @@ Red [
 
 #include %testlib.red
 
-test-init/limit %hello-world6.red 2
+test-init/limit %hello-world6.red 1
 
 canonical-cases: [#(
     description: "Say Hi!"
