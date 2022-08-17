@@ -39,7 +39,7 @@ test-runner: context [
 		system/words/test-results: try [
 			change-dir input-dir
 			code: load test-file
-			if find code [#include %testlib.red] [
+			if find code compose [(to issue! 'include) %testlib.red] [
 				do %testlib.red
 			]
 			remove find/last/only code 'test-results/print
