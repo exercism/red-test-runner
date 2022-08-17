@@ -38,8 +38,10 @@ test-runner: context [
 		old-dir: to file! get-current-dir
 		system/words/test-results: try [
 			change-dir input-dir
-			do %testlib.red
 			code: load test-file
+			if find code [#include %testlib.red] [
+				do %testlib.red
+			]
 			remove find/last/only code 'test-results/print
 			replace code [test-init/limit] [test-init]
 			bind code system/words
