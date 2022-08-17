@@ -39,10 +39,10 @@ test-runner: context [
 		system/words/test-results: try [
 			change-dir input-dir
 			code: load test-file
+			remove find/last/only code 'test-results/print
 			if find code compose [(to issue! 'include) %testlib.red] [
 				do %testlib.red
 			]
-			remove find/last/only code 'test-results/print
 			replace code [test-init/limit] [test-init]
 			bind code system/words
 			do code
@@ -86,10 +86,10 @@ test-runner: context [
 	]
 
 	save-exercism-results: does [
-		save/as probe rejoin [
+		save/as rejoin [
 			results-dir
 			%results.json
-		] probe exercism-results 'json
+		] exercism-results 'json
 	]
 ]
 
