@@ -20,13 +20,13 @@ RUN curl -L -O http://www.rebol.com/downloads/v278/rebol-core-278-4-10.tar.gz &&
   chmod +x /usr/local/bin/rebol && \
   rm -rf /tmp/rebol-core /tmp/rebol-core-278-4-10.tar.gz
 
-RUN curl -L -O https://github.com/red/red/archive/e014cf63cf3682d66183e4eaacd580b688203cfb.zip && \
-  unzip e014cf63cf3682d66183e4eaacd580b688203cfb.zip && \
-  cd red-e014cf63cf3682d66183e4eaacd580b688203cfb && \
+RUN curl -L -O https://github.com/red/red/archive/d99a1018a57b5179cfe57debeab72b958a716de5.zip && \
+  unzip d99a1018a57b5179cfe57debeab72b958a716de5.zip && \
+  cd red-d99a1018a57b5179cfe57debeab72b958a716de5 && \
   echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | rebol +q -s && \
   cp console /usr/local/bin/red && \
   chmod +x /usr/local/bin/red && \
-  rm -rf /tmp/red-e014cf63cf3682d66183e4eaacd580b688203cfb /tmp/e014cf63cf3682d66183e4eaacd580b688203cfb.zip
+  rm -rf /tmp/red-d99a1018a57b5179cfe57debeab72b958a716de5 /tmp/d99a1018a57b5179cfe57debeab72b958a716de5.zip
 
 WORKDIR /opt/test-runner
 COPY . .
