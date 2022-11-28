@@ -4,7 +4,7 @@ Red [
 ]
 
 metatests: [
-	[
+	[	;-- Test report structure and proper output interception
 		"hello-world"
 		%test/input/
 		%test/output/
@@ -17,11 +17,17 @@ metatests: [
 				status: "fail"
 				message: {FAILED. Expected: "Hello, World!", but got "Hello, Universe!"}
 				output: {"debug"^/debugging^/}
-				test_code: {solution = "Hello, World!"}
+				test_code: {[expect "Hello, World!" [hello]]}
+			) #(
+				name: "Say Hi!"
+				status: "pass"
+				message: "✓"
+				output: {"debug"^/debugging^/}
+				test_code: {[expect "Hello, Universe!" [hello]]}
 			)]
 		)
 	]
-	[
+	[	;-- Test output leakage
 		"hello-world2"
 		%test/input/
 		%test/output/
@@ -34,34 +40,34 @@ metatests: [
 				status: "pass"
 				message: "✓"
 				output: {"debug"^/debugging^/"INTERNAL_OUTPUT"^/}
-				test_code: {solution = "Hello, Universe!"}
+				test_code: {[expect "Hello, Universe!" [hello]]}
 			) #(
 				name: "Say Hi!"
 				status: "fail"
 				message: {FAILED. Expected: "Hello, World!", but got "Hello, Universe!"}
 				output: {"debug"^/debugging^/"INTERNAL_OUTPUT"^/}
-				test_code: {solution = "Hello, World!"}
+				test_code: {[expect "Hello, World!" [hello]]}
 			)]
 		)
 	]
-	[
+	[	;-- Test solution errors interception and reporting
 		"hello-world3"
 		%test/input/
 		%test/output/
 		#(
 			version: 2
-			status: "error"
-			message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : print 1 / 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from first expect hello }
+			status: "fail"
+			message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : print 1 / 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from last expect hello }
 			tests: [#(
 				name: "Say Hi!"
 				status: "error"
-				message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : print 1 / 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from first expect hello }
+				message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : print 1 / 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from last expect hello }
 				output: ""
-				test_code: {solution = "Hello, World!"}
+				test_code: {[expect "Hello, World!" [hello]]}
 			)]
 		)
 	]
-	[
+	[	;-- Test missing test files and, test framework errors reporting in general
 		"hello-world4"
 		%test/input/
 		%test/output/
@@ -72,28 +78,33 @@ metatests: [
 			tests: []
 		)
 	]
-	[
+	[	;-- Test output leakage and error reporting
 		"hello-world5"
 		%test/input/
 		%test/output/
 		#(
-		    version: 2
-		    status: "error"
-		    message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: do-file exercism-results-from first expect hello }
-		    tests: [#(
-		        name: "Say Hi!"
-		        status: "error"
-		        message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: do-file exercism-results-from first expect hello }
-		        output: "debugging^/"
-		        test_code: {solution = "Hello, World!"}
-		    )]
+			version: 2
+			status: "fail"
+			message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: do-file exercism-results-from last expect hello }
+			tests: [#(
+				name: "Say Hi!"
+				status: "error"
+				message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: do-file exercism-results-from last expect hello }
+				output: "debugging^/"
+				test_code: {[expect "Hello, World!" [hello]]}
+			) #(
+				name: "Say Hi!"
+				status: "error"
+				message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: do-file exercism-results-from last expect hello }
+				output: "debugging^/"
+				test_code: {[expect "Hello, Universe!" [hello]]}
+			)]
 		)
 	]
-	[
+	[	;-- Test if test runner accepts paths without trailing slashes as well
 		"hello-world6"
-		;-- trailing slashes omitted intentionally, as this is what's being tested:
-		%test/input
-		%test/output
+		%test/input 	;-- trailing slashes omitted intentionally, as this is what's being tested
+		%test/output	;-- trailing slashes omitted intentionally, as this is what's being tested
 		#(
 			version: 2
 			status: "fail"
@@ -103,7 +114,13 @@ metatests: [
 				status: "fail"
 				message: {FAILED. Expected: "Hello, World!", but got "Hello, Universe!"}
 				output: {"debug"^/debugging^/}
-				test_code: {solution = "Hello, World!"}
+				test_code: {[expect "Hello, World!" [hello]]}
+			) #(
+				name: "Say Hi!"
+				status: "pass"
+				message: "✓"
+				output: {"debug"^/debugging^/}
+				test_code: {[expect "Hello, Universe!" [hello]]}
 			)]
 		)
 	]
@@ -146,8 +163,6 @@ foreach metatest metatests [
 	]
 
 	unset 'results
-
-	unless pass? [break]
 ]
 
 either pass? [

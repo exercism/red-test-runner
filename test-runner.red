@@ -59,28 +59,49 @@ test-runner: context [
 			exercism-results/message: form results
 		] [
 			foreach result results [
+				if 'ignored = result/status [
+					continue
+				]
+
 				test: copy/deep test-template
 				test/name: result/summary
-				test/test_code: rejoin ["solution = " mold result/expected]
 				test/output: result/output
-				test/status: exercism-results/status: result/status
+				test/test_code: either find result 'test-code [
+					mold result/test-code
+				] [
+					rejoin ["solution = " mold result/expected]
+				]
 			
 				test/message: switch/default result/status [
 					error [
 						exercism-results/message: form result/actual
 					]
 					fail [
-						rejoin [{FAILED. Expected: "} result/expected {", but got "} result/actual {"}]
+						rejoin [
+							{FAILED.}
+							either find result 'expected [rejoin [
+								{ Expected: } mold result/expected
+								either find result 'actual [rejoin [
+									{, but got } mold result/actual
+								]] []
+							]] []
+						]
 					]
 				] [
 					"✓" ;'pass
 				]
+
+				exercism-results/status: switch/default result/status [
+					pass [exercism-results/status]					; change nothing
+					fail ['fail]
+					error ['fail]
+				] [
+					do make error! rejoin ["Unexpected status: " result/status]
+				]
+
+				test/status: result/status
 				
 				append exercism-results/tests test
-	
-				if exercism-results/status <> 'pass [
-					break
-				]
 			]
 		]
 	]
