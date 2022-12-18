@@ -41,12 +41,14 @@ metatests: [
 				message: "✓"
 				output: {"debug"^/debugging^/"INTERNAL_OUTPUT"^/}
 				test_code: {[expect "Hello, Universe!" [hello]]}
+				task_id: 1
 			) #(
 				name: "Say Hi!"
 				status: "fail"
 				message: {FAILED. Expected: "Hello, World!", but got "Hello, Universe!"}
 				output: {"debug"^/debugging^/"INTERNAL_OUTPUT"^/}
 				test_code: {[expect "Hello, World!" [hello]]}
+				task_id: 2
 			)]
 		)
 	]
