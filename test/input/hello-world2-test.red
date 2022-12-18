@@ -8,13 +8,13 @@ Red [
 test-init/limit %hello-world2.red 1
 
 canonical-cases: [#(
-    description: "Say Hi!"
+    description: "Say Hi!   task_id: 1"
     input: #()
     expected: "Hello, Universe!"
     function: "hello"
     uuid: "5bd9ba26-2a3a-4509-80c4-40dd7bda93fa"
 ) #(
-    description: "Say Hi!"
+    description: "Say Hi!   task_id: 2"
     input: #()
     expected: "Hello, World!"
     function: "hello"

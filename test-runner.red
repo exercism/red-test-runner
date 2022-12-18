@@ -64,7 +64,15 @@ test-runner: context [
 				]
 
 				test: copy/deep test-template
-				test/name: result/summary
+
+				either find result/summary "   task_id:" [
+					set [summary task-id] split result/summary "   task_id:"
+					test/name: summary
+					test/task_id: load task-id
+				] [
+					test/name: result/summary
+				]
+				
 				test/output: result/output
 				test/test_code: either find result 'test-code [
 					mold result/test-code
