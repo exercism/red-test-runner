@@ -9,9 +9,9 @@ metatests: [
 		%test/input/
 		%test/output/
 		#(
-			version: 2
+			version: 3
 			status: "fail"
-			message: none
+			message: #[none]
 			tests: [#(
 				name: "Say Hi!"
 				status: "fail"
@@ -21,24 +21,24 @@ metatests: [
 			) #(
 				name: "Say Hi!"
 				status: "pass"
-				message: "✓"
+				message: #[none]
 				output: {"debug"^/debugging^/}
 				test_code: {[expect "Hello, Universe!" [hello]]}
 			)]
 		)
 	]
-	[	;-- Test output leakage
+	[	;-- Test output leakage and task IDs
 		"hello-world2"
 		%test/input/
 		%test/output/
 		#(
-			version: 2
+			version: 3
 			status: "fail"
-			message: none
+			message: #[none]
 			tests: [#(
 				name: "Say Hi!"
 				status: "pass"
-				message: "✓"
+				message: #[none]
 				output: {"debug"^/debugging^/"INTERNAL_OUTPUT"^/}
 				test_code: {[expect "Hello, Universe!" [hello]]}
 				task_id: 1
@@ -57,14 +57,14 @@ metatests: [
 		%test/input/
 		%test/output/
 		#(
-			version: 2
+			version: 3
 			status: "fail"
-			message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : print 1 / 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from last expect hello }
+			message: #[none]
 			tests: [#(
 				name: "Say Hi!"
 				status: "error"
 				message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : print 1 / 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from last expect hello }
-				output: ""
+				output: #[none]
 				test_code: {[expect "Hello, World!" [hello]]}
 			)]
 		)
@@ -74,7 +74,7 @@ metatests: [
 		%test/input/
 		%test/output/
 		#(
-			version: 2
+			version: 3
 			status: "error"
 			message: {*** Access Error: cannot open: %hello-world4-test.red^/*** Where: read^/*** Near : code: load test-file remove find/last/only ^/*** Stack: do-file exercism-results-from }
 			tests: []
@@ -85,9 +85,9 @@ metatests: [
 		%test/input/
 		%test/output/
 		#(
-			version: 2
+			version: 3
 			status: "fail"
-			message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: do-file exercism-results-from last expect hello }
+			message: #[none]
 			tests: [#(
 				name: "Say Hi!"
 				status: "error"
@@ -108,9 +108,9 @@ metatests: [
 		%test/input 	;-- trailing slashes omitted intentionally, as this is what's being tested
 		%test/output	;-- trailing slashes omitted intentionally, as this is what's being tested
 		#(
-			version: 2
+			version: 3
 			status: "fail"
-			message: none
+			message: #[none]
 			tests: [#(
 				name: "Say Hi!"
 				status: "fail"
@@ -120,7 +120,7 @@ metatests: [
 			) #(
 				name: "Say Hi!"
 				status: "pass"
-				message: "✓"
+				message: #[none]
 				output: {"debug"^/debugging^/}
 				test_code: {[expect "Hello, Universe!" [hello]]}
 			)]
