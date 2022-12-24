@@ -17,7 +17,7 @@ test-runner: context [
 
 
 	results-template: make map! [
-		version: 2
+		version: 3
 		status: pass		; pass / fail / error
 		message: #[none]	; only when there is error
 		tests: []			; tests results, see 'test-template
@@ -27,7 +27,7 @@ test-runner: context [
 		name: ""
 		status: pass		; pass / fail / error
 		message: #[none]
-		output: ""			; console output from user's script's
+		output: #[none]			; console output from user's script's
 		test_code: ""		; what was tested
 	]
 
@@ -72,8 +72,8 @@ test-runner: context [
 				] [
 					test/name: result/summary
 				]
-				
-				test/output: result/output
+
+				unless empty? result/output [test/output: result/output]
 				test/test_code: either find result 'test-code [
 					mold result/test-code
 				] [
@@ -82,7 +82,7 @@ test-runner: context [
 			
 				test/message: switch/default result/status [
 					error [
-						exercism-results/message: form result/actual
+						form result/actual
 					]
 					fail [
 						rejoin [
@@ -96,7 +96,7 @@ test-runner: context [
 						]
 					]
 				] [
-					"✓" ;'pass
+					none		; pass
 				]
 
 				exercism-results/status: switch/default result/status [
