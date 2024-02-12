@@ -19,15 +19,15 @@ test-runner: context [
 	results-template: make map! [
 		version: 3
 		status: pass		; pass / fail / error
-		message: #[none]	; only when there is error
+		message: #(none)	; only when there is error
 		tests: []			; tests results, see 'test-template
 	]
 
 	test-template: make map! [
 		name: ""
 		status: pass		; pass / fail / error
-		message: #[none]
-		output: #[none]			; console output from user's script's
+		message: #(none)
+		output: #(none)			; console output from user's script's
 		test_code: ""		; what was tested
 	]
 

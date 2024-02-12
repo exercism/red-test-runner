@@ -7,19 +7,19 @@ Red [
 
 test-init/limit %hello-world5.red 1
 
-canonical-cases: [#(
+canonical-cases: [#[
     description: "Say Hi!"
-    input: #()
+    input: #[]
     expected: "Hello, World!"
     function: "hello"
     uuid: "af9ffe10-dc13-42d8-a742-e7bdafac449d"
-) #(
+] #[
     description: "Say Hi!"
-    input: #()
+    input: #[]
     expected: "Hello, Universe!"
     function: "hello"
     uuid: "5bd9ba26-2a3a-4509-80c4-40dd7bda93fa"
-)]
+]]
 
 
 foreach c-case canonical-cases [
