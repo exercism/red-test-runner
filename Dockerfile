@@ -1,4 +1,4 @@
-FROM ubuntu:kinetic-20220801
+FROM ubuntu:22.04
 
 RUN dpkg --add-architecture i386 && \
   apt-get update && \
