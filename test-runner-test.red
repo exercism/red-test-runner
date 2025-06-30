@@ -76,7 +76,7 @@ metatests: [
 		#[
 			version: 3
 			status: "error"
-			message: {*** Access Error: cannot open: %hello-world4-test.red^/*** Where: read^/*** Near : code: load test-file remove find/last/only ^/*** Stack: do-file exercism-results-from }
+			message: {*** Access Error: cannot open: %hello-world4-test.red^/*** Where: read^/*** Near : code: load test-file remove find/last/only^/*** Stack: do-file exercism-results-from }
 			tests: []
 		]
 	]
