@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b
 
 RUN dpkg --add-architecture i386 && \
   apt-get update && \
@@ -6,7 +6,7 @@ RUN dpkg --add-architecture i386 && \
   curl \
   libc6:i386 \
   libcurl4:i386 \
-  libgdk-pixbuf2.0-0:i386 && \
+  libgdk-pixbuf-2.0-0:i386 && \
   apt-get purge --auto-remove && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
