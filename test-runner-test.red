@@ -169,6 +169,7 @@ foreach metatest metatests [
 
 either pass? [
 	print "^/ALL TESTS OK."
+	quit/return 0
 ] [
 	quit/return 1		; TODO: https://github.com/red/red/issues/4095
 ]
