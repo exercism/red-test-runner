@@ -1,5 +1,8 @@
 FROM ubuntu:24.04@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b
 
+ENV REBOL_VERSION=278-4-10
+ENV RED_VERSION=0.6.6
+
 RUN dpkg --add-architecture i386 && \
   apt-get update && \
   apt-get install -y \
@@ -13,19 +16,19 @@ RUN dpkg --add-architecture i386 && \
 
 WORKDIR /tmp
 
-RUN curl -L -O http://www.rebol.com/downloads/v278/rebol-core-278-4-10.tar.gz && \
-  tar -xzf rebol-core-278-4-10.tar.gz && \
+RUN curl -L -O http://www.rebol.com/downloads/v${REBOL_VERSION%%-*}/rebol-core-${REBOL_VERSION}.tar.gz && \
+  tar -xzf rebol-core-${REBOL_VERSION}.tar.gz && \
   cp rebol-core/rebol /usr/local/bin/rebol && \
   chmod +x /usr/local/bin/rebol && \
-  rm -rf /tmp/rebol-core /tmp/rebol-core-278-4-10.tar.gz
+  rm -rf /tmp/rebol-core /tmp/rebol-core-${REBOL_VERSION}.tar.gz
 
-RUN curl -L -O https://github.com/red/red/archive/refs/tags/v0.6.6.tar.gz && \
-  tar -xzf v0.6.6.tar.gz && \
-  cd red-0.6.6 && \
+RUN curl -L -O https://github.com/red/red/archive/refs/tags/v${RED_VERSION}.tar.gz && \
+  tar -xzf v${RED_VERSION}.tar.gz && \
+  cd red-${RED_VERSION} && \
   echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | rebol +q -s && \
   cp console /usr/local/bin/red && \
   chmod +x /usr/local/bin/red && \
-  rm -rf /tmp/red-0.6.6 /tmp/v0.6.6.tar.gz
+  rm -rf /tmp/red-${RED_VERSION} /tmp/v${RED_VERSION}.tar.gz
 
 WORKDIR /opt/test-runner
 COPY . .
