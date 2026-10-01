@@ -23,4 +23,3 @@ fi
 
 cd "$2" || exit
 /usr/local/bin/red /opt/test-runner/test-runner.red "$1" "$2" "$3"
-cd -
