@@ -19,13 +19,13 @@ RUN curl -L -O http://www.rebol.com/downloads/v278/rebol-core-278-4-10.tar.gz &&
   chmod +x /usr/local/bin/rebol && \
   rm -rf /tmp/rebol-core /tmp/rebol-core-278-4-10.tar.gz
 
-RUN curl -L -O https://github.com/red/red/archive/refs/heads/master.tar.gz && \
-  tar -xzf master.tar.gz && \
-  cd red-master && \
+RUN curl -L -O https://github.com/red/red/archive/refs/tags/v0.6.6.tar.gz && \
+  tar -xzf v0.6.6.tar.gz && \
+  cd red-0.6.6 && \
   echo 'Rebol[] do/args %red.r "-d -r --no-view %environment/console/CLI/console.red"' | rebol +q -s && \
   cp console /usr/local/bin/red && \
   chmod +x /usr/local/bin/red && \
-  rm -rf /tmp/red-master /tmp/master.tar.gz
+  rm -rf /tmp/red-0.6.6 /tmp/v0.6.6.tar.gz
 
 WORKDIR /opt/test-runner
 COPY . .
