@@ -63,7 +63,7 @@ metatests: [
 			tests: [#[
 				name: "Say Hi!"
 				status: "error"
-				message: {*** Math Error: attempt to divide by zero^/*** Where: do^/*** Near : print 1 / 0 "Hello, Universe!"^/*** Stack: do-file exercism-results-from last expect hello }
+				message: {*** Math Error: attempt to divide by zero^/*** Where: /^/*** Near : print 1 / 0 "Hello, Universe!"^/*** Stack: exercism-results-from last expect hello }
 				output: #(none)
 				test_code: {[expect "Hello, World!" [hello]]}
 			]]
@@ -76,7 +76,7 @@ metatests: [
 		#[
 			version: 3
 			status: "error"
-			message: {*** Access Error: cannot open: %hello-world4-test.red^/*** Where: read^/*** Near : code: load test-file remove find/last/only^/*** Stack: do-file exercism-results-from }
+			message: {*** Access Error: cannot open: %hello-world4-test.red^/*** Where: read^/*** Near : code: load test-file remove find/last/only^/*** Stack: exercism-results-from }
 			tests: []
 		]
 	]
@@ -91,13 +91,13 @@ metatests: [
 			tests: [#[
 				name: "Say Hi!"
 				status: "error"
-				message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: do-file exercism-results-from last expect hello }
+				message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: exercism-results-from last expect hello }
 				output: "debugging^/"
 				test_code: {[expect "Hello, World!" [hello]]}
 			] #[
 				name: "Say Hi!"
 				status: "error"
-				message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: do-file exercism-results-from last expect hello }
+				message: {*** Script Error: output has no value^/*** Where: append^/*** Near : reduce [form :value #"^^/"] return ()^/*** Stack: exercism-results-from last expect hello }
 				output: "debugging^/"
 				test_code: {[expect "Hello, Universe!" [hello]]}
 			]]
@@ -138,18 +138,18 @@ foreach metatest metatests [
 
 	trial: try [
 
-		do/args %test-runner.red rejoin [
-			{"} metatest/1 {" "} metatest/2 {" "} metatest/3 {"}
-		]		;; TODO: use 'call'?
+		exit-code: call/wait rejoin [
+			"red test-runner.red " metatest/1 " " metatest/2 " " metatest/3
+		]
 
 		results: load-json read %test/output/results.json
 		delete %test/output/results.json
 
-		either results = metatest/4 [
+		either all [exit-code = 0 results = metatest/4] [
 			print "OK"
 			true
 		] [
-			print ["FAIL. Expected:^/" mold metatest/4 "^/but got:^/" mold results]
+			print ["FAIL. Exit code:" exit-code "^/Expected:^/" mold metatest/4 "^/but got:^/" mold results]
 			false
 		]
 	]
