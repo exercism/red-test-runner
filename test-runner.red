@@ -125,3 +125,4 @@ test-runner: context [
 test-runner/run-test
 test-runner/exercism-results-from test-results
 test-runner/save-exercism-results
+quit/return 0
